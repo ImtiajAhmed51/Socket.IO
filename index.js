@@ -6,7 +6,6 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 app.set('port', (process.env.PORT || 3000));
 app.use(express.static('public')); 
-// views is directory for all template files
 console.log("outside io");
 var usersList=[];
 io.on('connection', function(socket){
