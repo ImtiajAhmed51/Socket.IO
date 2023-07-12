@@ -73,6 +73,23 @@ io.on('connection', function(socket){
         }
         console.log('delete=>',usersList);
     });
+      socket.on("message", function(value) {
+        console.log(value);
+        io.emit('message',value);
+    });
+
+
+    socket.on('Group', function(Group){
+        groupList.push(Group)
+       io.emit('Group',Group);
+       console.log('new Group add=>',Group);
+       io.emit('AllGroup',groupList);
+     });
+     
+      socket.on('AllGroup', function(Group){
+       io.emit('AllGroup',groupList);
+     });
+     
 });
 http.listen(app.get('port'), function() {
     console.log('Node JS Server app is running on port', app.get('port'));
