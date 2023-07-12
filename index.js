@@ -8,6 +8,7 @@ app.set('port', (process.env.PORT || 3000));
 app.use(express.static('public')); 
 console.log("outside io");
 var usersList=[];
+var groupList = [];
 io.on('connection', function(socket){
     console.log('Connected');
     socket.on('join', function(user){
@@ -73,19 +74,12 @@ io.on('connection', function(socket){
         }
         console.log('delete=>',usersList);
     });
-      socket.on("message", function(value) {
-        console.log(value);
-        io.emit('message',value);
-    });
-
-
     socket.on('Group', function(Group){
         groupList.push(Group)
        io.emit('Group',Group);
        console.log('new Group add=>',Group);
        io.emit('AllGroup',groupList);
      });
-     
       socket.on('AllGroup', function(Group){
        io.emit('AllGroup',groupList);
      });
