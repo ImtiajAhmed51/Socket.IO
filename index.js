@@ -1,4 +1,3 @@
-
 const express = require('express')
 const path = require('path')
 var app = express();
@@ -64,6 +63,10 @@ io.on('connection', function(socket){
         console.log('Message=>',msg);
         io.emit('chat message', msg);
     });
+    socket.on('privateMessage', (data) => {
+    const { recipient, message } = data;
+    socket.to(recipient).emit('privateMessage', { sender: socket.id, message });
+    });
     socket.on('delete', function(User){
         for (let i = 0; i < usersList.length; i++) {
             if (usersList[i]['id']==User['id']) {
@@ -75,14 +78,14 @@ io.on('connection', function(socket){
         console.log('delete=>',usersList);
     });
     socket.on('Group', function(Group){
-        groupList.push(Group)
+       groupList.push(Group)
        io.emit('Group',Group);
        console.log('new Group add=>',Group);
        io.emit('AllGroup',groupList);
-     });
-      socket.on('AllGroup', function(Group){
+    });
+    socket.on('AllGroup', function(Group){
        io.emit('AllGroup',groupList);
-     });
+    });
      
 });
 http.listen(app.get('port'), function() {
