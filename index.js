@@ -65,6 +65,7 @@ io.on('connection', function(socket){
     });
     socket.on('privateMessage', (data) => {
     const { recipient, message } = data;
+      console.log('privateMessage=>',data);
     socket.to(recipient).emit('privateMessage', { sender: socket.id, message });
     });
     socket.on('delete', function(User){
